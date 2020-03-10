@@ -46,13 +46,14 @@ class NewQRLogin:
             raise Exception(result["reason"])
         return result
 
-    def loginQRWithWebPinCode(this, header):
+    def loginQRWithWebPinCode(this, header, lang="en"):
+        # SUPPORT LANGUAGE: [en, th, jp]
         assert header in this.HEADERS
         result = this.get(this.BASE_HOST + "login?headers=" + header)
         if result["status"] != 200:
             raise Exception(result["reason"])
         this.callback(
-            "Pin Url: %sawaitPinCode?session=%s&lang=th" % (this.BASE_HOST, result["session"]) + "\n"
+            "Pin Url: %sawaitPinCode?session=%s&lang=%s" % (this.BASE_HOST, result["session"], lang) + "\n"
             "Login Url: %s" % (result["url"])
         )
         result = this.get(this.BASE_HOST + result["callback"])
