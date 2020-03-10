@@ -65,4 +65,4 @@ def loginQRWithCertV2(headers, certificate="", callback=lambda x: print(x)):
         raise Exception(result["reason"])
     return result
 
-print(loginQRWithCertV2(HEADER, "CERT_HERE"))
+print(loginQRWithWebPinCode(HEADER))
