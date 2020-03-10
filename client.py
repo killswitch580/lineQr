@@ -13,7 +13,7 @@ def loginQR(headers, callback=lambda x: print(x)):
     result = requests.get(BASE_HOST + "login?headers=" + headers).json()
     if result["status"] != 200:
         raise Exception(result["reason"])
-    callback("Login UrL: %s" % (result["url"]))
+    callback("Login Url: %s" % (result["url"]))
     result = requests.get(BASE_HOST + result["callback"]).json()
     if result["status"] != 200:
         raise Exception(result["reason"])
@@ -29,7 +29,7 @@ def loginQRWithWebPinCode(headers, callback=lambda x: print(x)):
         raise Exception(result["reason"])
     callback(
         "Pin Url: %sawaitPinCode?session=%s&lang=th" % (BASE_HOST, result["session"]) + "\n"
-        "Login UrL: %s" % (result["url"])
+        "Login Url: %s" % (result["url"])
     )
     result = requests.get(BASE_HOST + result["callback"]).json()
     if result["status"] != 200:
@@ -43,7 +43,22 @@ def loginQRWithCert(headers, certificate, callback=lambda x: print(x)):
     result = requests.get(BASE_HOST + "login?headers=" + headers + "&certificate=" + certificate).json()
     if result["status"] != 200:
         raise Exception(result["reason"])
-    callback("Login UrL: %s" % (result["url"]))
+    callback("Login Url: %s" % (result["url"]))
+    result = requests.get(BASE_HOST + result["callback"]).json()
+    if result["status"] != 200:
+        raise Exception(result["reason"])
+    return result
+
+def loginQRWithCertV2(headers, certificate, callback=lambda x: print(x)):
+    result = requests.get(BASE_HOST + "login?headers=" + headers + "&certificate=" + certificate + "&type=2").json()
+    if result["status"] != 200:
+        raise Exception(result["reason"])
+    callback("Login Url: %s" % (result["url"]))
+    result = requests.get(BASE_HOST + result["callback"]).json()
+    if result["status"] != 200:
+        raise Exception(result["reason"])
+    if result["status"] != 409:
+        return result
     result = requests.get(BASE_HOST + result["callback"]).json()
     if result["status"] != 200:
         raise Exception(result["reason"])
