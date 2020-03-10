@@ -7,10 +7,16 @@ Example
 from newqr import NewQRLogin
 from linepy import LINE
 
+# HEADER must be same as config.py
+
 newqr = NewQRLogin()
-print("headers: %s" % (", ".join(newqr.HEADERS)))
-header = input("header: ")
-token, cert = newqr.parseLogin(newqr.loginQR(header))
+
+print("Headers: %s" % (", ".join(newqr.HEADERS)))
+header = input("Header: ")
+
+method = newqr.loginQRWithWebPinCode
+token, cert = newqr.parseLogin(method(header))
+
 client = LINE(token)
 ```
 [LINEPY](https://github.com/crash-override404/linepy-modified) required
