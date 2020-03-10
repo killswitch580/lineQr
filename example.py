@@ -5,8 +5,8 @@ from linepy import LINE
 
 newqr = NewQRLogin()
 
-print("headers: %s" % (", ".join(newqr.HEADERS)))
-header = input("header: ")
+print("Headers: %s" % (", ".join(newqr.HEADERS)))
+header = input("Header: ")
 
 method = newqr.loginQRWithWebPinCode
 token, cert = newqr.parseLogin(method(header))
