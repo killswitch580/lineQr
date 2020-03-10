@@ -49,19 +49,20 @@ def loginQRWithCert(headers, certificate, callback=lambda x: print(x)):
         raise Exception(result["reason"])
     return result
 
-def loginQRWithCertV2(headers, certificate, callback=lambda x: print(x)):
+def loginQRWithCertV2(headers, certificate="", callback=lambda x: print(x)):
     result = requests.get(BASE_HOST + "login?headers=" + headers + "&certificate=" + certificate + "&type=2").json()
     if result["status"] != 200:
         raise Exception(result["reason"])
     callback("Login Url: %s" % (result["url"]))
     result = requests.get(BASE_HOST + result["callback"]).json()
-    if result["status"] != 200:
+    if result["status"] == 500:
         raise Exception(result["reason"])
     if result["status"] != 409:
         return result
+    callback("Pin Code: %s" % (result["pincode"]))
     result = requests.get(BASE_HOST + result["callback"]).json()
     if result["status"] != 200:
         raise Exception(result["reason"])
     return result
 
-print(loginQRWithWebPinCode(HEADER))
+print(loginQRWithCertV2(HEADER, "HEADAWEGSR"))
