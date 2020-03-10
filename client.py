@@ -15,7 +15,7 @@ def loginQR(headers, callback=lambda x: print(x)):
         raise Exception(result["reason"])
     callback("Login Url: %s" % (result["url"]))
     result = requests.get(BASE_HOST + result["callback"]).json()
-    if result["status"] != 200:
+    if result["status"] not in [200, 429]:
         raise Exception(result["reason"])
     callback("Pin Code: %s" % (result["pincode"]))
     result = requests.get(BASE_HOST + result["callback"]).json()
@@ -32,7 +32,7 @@ def loginQRWithWebPinCode(headers, callback=lambda x: print(x)):
         "Login Url: %s" % (result["url"])
     )
     result = requests.get(BASE_HOST + result["callback"]).json()
-    if result["status"] != 200:
+    if result["status"] not in [200, 409]:
         raise Exception(result["reason"])
     result = requests.get(BASE_HOST + result["callback"]).json()
     if result["status"] != 200:
@@ -55,9 +55,9 @@ def loginQRWithCertV2(headers, certificate="", callback=lambda x: print(x)):
         raise Exception(result["reason"])
     callback("Login Url: %s" % (result["url"]))
     result = requests.get(BASE_HOST + result["callback"]).json()
-    if result["status"] == 500:
+    if result["status"] not in [200, 409]:
         raise Exception(result["reason"])
-    if result["status"] != 409:
+    if result["status"] == 429:
         return result
     callback("Pin Code: %s" % (result["pincode"]))
     result = requests.get(BASE_HOST + result["callback"]).json()
