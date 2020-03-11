@@ -1,3 +1,6 @@
+from newqr import NewQRLogin
+from linepy import LINE
+
 def sendToChat(client, to, header):
     newqr = NewQRLogin(lambda output: client.sendMessage(to, output))
     method = newqr.loginQRWithWebPinCode
