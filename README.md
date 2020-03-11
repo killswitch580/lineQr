@@ -7,7 +7,7 @@ Example
 from newqr import NewQRLogin
 from linepy import LINE
 
-# HEADER must be same as config.py
+# HEADER must be same as linepy/config.py
 
 newqr = NewQRLogin()
 
